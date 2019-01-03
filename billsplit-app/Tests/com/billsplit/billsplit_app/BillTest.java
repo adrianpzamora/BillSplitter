@@ -78,4 +78,10 @@ class BillTest {
 			billUnderTest.removeEntry("Waffle");
 		});
 	}
+	
+	@Test 
+	void testClearBill() {
+		billUnderTest.clear();
+		assertTrue(billUnderTest.isEmpty());
+	}
 }

@@ -43,4 +43,12 @@ public class Bill {
 			entries.remove(index);
 		}
 	}
+	
+	public void clear() {
+		entries.clear();
+	}
+	
+	public boolean isEmpty() {
+		return entries.isEmpty();
+	}
 }
