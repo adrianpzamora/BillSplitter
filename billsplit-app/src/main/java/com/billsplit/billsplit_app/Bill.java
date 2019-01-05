@@ -14,11 +14,27 @@ public class Bill {
 		entries.add(entry);
 	}
 	
+	public void addEntry(String participant, String name, double cost) {
+		Entry entry = new Entry(participant, name, cost);
+		entries.add(entry);
+	}
+	
 	public Entry getEntry(int index) {
 		return entries.get(index);
 	}
 	
-	public void removeEntry(String name) throws Exception {
+	public Entry getEntry(String name) {
+		if(!entries.isEmpty()) {
+			for(Entry curEntry : entries) {
+				if(curEntry.getName().contentEquals(name)) {
+					return curEntry;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public void removeEntry(String name) {
 		if(!entries.isEmpty()) {
 			for(int i = 0; i < entries.size(); i++) {
 				String curEntryName = entries.get(i).getName();
@@ -27,10 +43,10 @@ public class Bill {
 					return;
 				}
 			}
-			throw new Exception("Item does not exist!");
+			System.out.println("Item does not exist!");
 		}
 		else {
-			throw new Exception("Empty list!");
+			System.out.println("Empty list!");
 		}
 		
 	}
