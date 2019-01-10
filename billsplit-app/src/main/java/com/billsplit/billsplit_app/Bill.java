@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 public class Bill {
 	private ArrayList<Entry> entries;
+	private double total;
+	private double tax;
+	private double taxRate; 
+	private double tipRate;
 	
 	public Bill() {
 		entries = new ArrayList<Entry>();
@@ -59,12 +63,44 @@ public class Bill {
 			entries.remove(index);
 		}
 	}
-	
+
 	public void clear() {
 		entries.clear();
 	}
 	
 	public boolean isEmpty() {
 		return entries.isEmpty();
+	}
+
+	public double getTotal() {
+		return total;
+	}
+
+	public void setTotal(double total) {
+		this.total = total;
+	}
+
+	public double getTax() {
+		return tax;
+	}
+
+	public void setTax(double tax) {
+		this.tax = tax;
+	}
+
+	public double getTaxRate() {
+		return taxRate;
+	}
+
+	public void setTaxRate(double taxRate) {
+		this.taxRate = taxRate;
+	}
+
+	public double getTipRate() {
+		return tipRate;
+	}
+
+	public void setTipRate(double tipRate) {
+		this.tipRate = tipRate;
 	}
 }
