@@ -39,7 +39,7 @@ class BillTest {
 	}
 	
 	@Test
-	void testAddMultipleEntriesToBillsplitter() {
+	void testAddMultipleEntriesToBill() {
 		Entry entry = new Entry("Garlic fries", 6.30);
 		billUnderTest.addEntry("Garlic fries", 6.30);
 		assertTrue(compareEntries(entry, billUnderTest.getEntry(0)));
@@ -48,6 +48,15 @@ class BillTest {
 		assertTrue(compareEntries(entry, billUnderTest.getEntry(1)));
 		entry = new Entry("Rice", 0.50);
 		billUnderTest.addEntry("Rice", 0.50);
+		assertTrue(compareEntries(entry, billUnderTest.getEntry(2)));
+	}
+
+	@Test
+	void testAddEntryWithMoreThanOneQuantity() {
+		billUnderTest.addMultipleEntries("Garlic fries", 6.30, 3);
+		Entry entry = new Entry("Garlic fries", 6.30);
+		assertTrue(compareEntries(entry, billUnderTest.getEntry(0)));
+		assertTrue(compareEntries(entry, billUnderTest.getEntry(1)));
 		assertTrue(compareEntries(entry, billUnderTest.getEntry(2)));
 	}
 	
