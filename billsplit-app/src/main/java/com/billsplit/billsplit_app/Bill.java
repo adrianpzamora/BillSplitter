@@ -23,6 +23,17 @@ public class Bill {
 		entries.add(entry);
 	}
 	
+	public void addMultipleEntries(String name, double cost, int quantity) {
+		if(quantity == 1) {
+			addEntry(name, cost);
+			return;
+		}
+		for(int i = 0; i < quantity; i++) {
+			Entry entry = new Entry(name, cost);
+			entries.add(entry);
+		}
+	}
+	
 	public Entry getEntry(int index) {
 		return entries.get(index);
 	}
@@ -53,6 +64,10 @@ public class Bill {
 			System.out.println("Empty list!");
 		}
 		
+	}
+	
+	public int getNumEntries() {
+		return entries.size();
 	}
 	
 	public void removeEntry(int index) {
