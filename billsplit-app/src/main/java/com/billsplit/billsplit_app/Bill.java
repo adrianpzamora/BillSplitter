@@ -49,6 +49,13 @@ public class Bill {
 		return null;
 	}
 	
+	public void displayEntries() {
+		int numEntries = getNumEntries();
+		for(int i = 0; i < numEntries; i++) {
+			System.out.println("(" + i + ") " + getEntry(i));
+		}
+	}
+	
 	public void removeEntry(String name) {
 		if(!entries.isEmpty()) {
 			for(int i = 0; i < entries.size(); i++) {
@@ -108,7 +115,7 @@ public class Bill {
 	}
 
 	public void setTaxRate(double taxRate) {
-		this.taxRate = taxRate;
+		this.taxRate = taxRate/100.0;
 	}
 
 	public double getTipRate() {
@@ -116,6 +123,6 @@ public class Bill {
 	}
 
 	public void setTipRate(double tipRate) {
-		this.tipRate = tipRate;
+		this.tipRate = tipRate/100.0;
 	}
 }
