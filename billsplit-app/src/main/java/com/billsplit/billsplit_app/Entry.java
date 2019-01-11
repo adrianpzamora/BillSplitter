@@ -43,4 +43,17 @@ public class Entry {
 	public double getCost() {
 		return cost;
 	}
+	
+	public String toString() {
+		StringBuilder retStr = new StringBuilder();
+		retStr.append(name);
+		
+		int numParticipants = getNumParticipants();
+		if(numParticipants > 0) {
+			retStr.append(" - " + participants.toString());
+		}
+		retStr.append('\n');
+		return retStr.toString();
+	}
+	
 }
