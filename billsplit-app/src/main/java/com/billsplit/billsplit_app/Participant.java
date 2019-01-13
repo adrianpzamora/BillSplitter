@@ -1,27 +1,33 @@
 package com.billsplit.billsplit_app;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Participant {
 	private String name;
 	private String phoneNum = "";
 	private String venmoAccount = "";
-	private HashMap<String, Double> entryCosts;
-	private double total = 0;
+	private HashMap<String, Double> entryCostMap;
 	private Bill bill;
 	
 	public Participant(String name, Bill bill) {
 		this.name = name;
 		this.bill = bill;
-		entryCosts = new HashMap<String, Double>();
+		entryCostMap = new HashMap<String, Double>();
 	}
 
 	public double totalBill() {
-		return 6.30*1.10*1.20;	
+		double total = 0;
+		double taxRateMultiplier = 1 + bill.getTaxRate();
+		double tipRateMultiplier = 1 + bill.getTipRate();
+		for(Map.Entry<String, Double> entryCost : entryCostMap.entrySet()) {
+			total += entryCost.getValue() * taxRateMultiplier * tipRateMultiplier;
+		}
+		return total;
 	}
 	
 	public void updateEntryCost(String entryName, double cost) {
-		entryCosts.put(entryName, cost);
+		entryCostMap.put(entryName, cost);
 	}
 	
 	public String toString() {
@@ -50,13 +56,5 @@ public class Participant {
 
 	public void setVenmoAccount(String venmoAccount) {
 		this.venmoAccount = venmoAccount;
-	}
-
-	public double getTotal() {
-		return total;
-	}
-
-	public void setTotal(double total) {
-		this.total = total;
 	}
 }
