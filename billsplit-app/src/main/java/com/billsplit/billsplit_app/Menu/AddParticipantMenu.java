@@ -29,10 +29,7 @@ public class AddParticipantMenu implements Menu {
 			System.out.print("Please enter participant name: ");
 			String name = Input.getValidString();
 			
-			Participant curParticipant = bill.getParticipant(name);
-			if(curParticipant == null) {
-				curParticipant =  new Participant(name, bill);
-			}
+			Participant curParticipant = bill.getExistingParticipant(name);
 			entry.addParticipant(curParticipant);
 		}
 	}
