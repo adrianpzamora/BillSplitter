@@ -3,6 +3,7 @@ package com.billsplit.billsplit_app.Menu;
 import com.billsplit.billsplit_app.Bill;
 import com.billsplit.billsplit_app.Entry;
 import com.billsplit.billsplit_app.Input;
+import com.billsplit.billsplit_app.Participant;
 
 public class AddParticipantMenu implements Menu {
 
@@ -28,7 +29,11 @@ public class AddParticipantMenu implements Menu {
 			System.out.print("Please enter participant name: ");
 			String name = Input.getValidString();
 			
-			entry.addParticipant(name);
+			Participant curParticipant = bill.getParticipant(name);
+			if(curParticipant == null) {
+				curParticipant =  new Participant(name);
+			}
+			entry.addParticipant(curParticipant);
 		}
 	}
 

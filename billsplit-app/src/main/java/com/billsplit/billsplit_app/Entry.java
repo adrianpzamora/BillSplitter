@@ -3,7 +3,7 @@ package com.billsplit.billsplit_app;
 import java.util.ArrayList;
 
 public class Entry {
-	private ArrayList<String> participants = new ArrayList<String>();
+	private ArrayList<Participant> participants = new ArrayList<Participant>();
 	private String name;
 	private double cost;
 	
@@ -12,24 +12,53 @@ public class Entry {
 		this.cost = cost;
 	}
 	
-	public Entry(String participant, String name, double cost) {
+	public Entry(Participant participant, String name, double cost) {
 		this.name = name;
 		this.cost = cost;
 		participants.add(participant);
 	}
 	
-	public String getParticipant(int index) {
-		return participants.get(index);
+	private void notifyParticipants() {
+		for(Participant participant : participants) {
+			
+		}
 	}
 	
-	public void addParticipant(String name) {
-		participants.add(name);
+	public void addParticipant(Participant participant) {
+		if(!participants.contains(participant)) {
+			participants.add(participant);
+			notifyParticipants();
+		}
 	}
 	
-	public void removeParticipant(String name) {
-		if(participants.remove(name) == false) {
+	public int findParticipantIndex(String name) {
+		int numParticipants = getNumParticipants();
+		for(int i = 0; i < numParticipants; i++) {
+			if(participants.get(i).getName().equals(name)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	public void removeParticipant(String participantName) {
+		int index = findParticipantIndex(participantName);
+		if(index >= 0) {
+			participants.remove(index);
+		}
+		else {
+			System.out.println("Participant not in entry!");
+		}
+	}
+	
+	public void removeParticipant(Participant participant) {
+		if(participants.remove(participant) == false) {
 			System.out.println("Participant does not exist");
 		}
+	}
+	
+	public Participant getParticipant(int index) {
+		return participants.get(index);
 	}
 	
 	public int getNumParticipants() {

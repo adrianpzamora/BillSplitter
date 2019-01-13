@@ -25,7 +25,9 @@ class BillTest {
 		
 		int numParticipants = entry1.getNumParticipants();
 		for(int i = 0; i < numParticipants; i++) {
-			if(!entry1.getParticipant(i).contentEquals(entry2.getParticipant(i))) {
+			String name1 = entry1.getParticipant(i).getName();
+			String name2 = entry2.getParticipant(i).getName();
+			if(!name1.equals(name2)) {
 				return false;
 			}
 		}
@@ -34,8 +36,19 @@ class BillTest {
 	
 	boolean compareEntries(Entry entry1, Entry entry2) {
 		return (entry1.getCost() == entry2.getCost()) &&
-				(entry1.getName() == entry2.getName() &&
+				(entry1.getName().equals(entry2.getName()) &&
 				compareParticipants(entry1, entry2));
+	}
+	
+	@Test
+	void testAddEntriesWithSameName() {
+		billUnderTest.addEntry("Garlic Fries", 6.50);
+		billUnderTest.addEntry("Garlic Fries", 6.50);
+		
+		assertEquals(billUnderTest.getEntry(0).getName(), 
+				"Garlic Fries");
+		assertEquals(billUnderTest.getEntry(1).getName(), 
+				"Garlic Fries - 2");
 	}
 	
 	@Test
@@ -54,10 +67,13 @@ class BillTest {
 	@Test
 	void testAddEntryWithMoreThanOneQuantity() {
 		billUnderTest.addMultipleEntries("Garlic fries", 6.30, 3);
-		Entry entry = new Entry("Garlic fries", 6.30);
-		assertTrue(compareEntries(entry, billUnderTest.getEntry(0)));
-		assertTrue(compareEntries(entry, billUnderTest.getEntry(1)));
-		assertTrue(compareEntries(entry, billUnderTest.getEntry(2)));
+		Entry entry1 = new Entry("Garlic fries", 6.30);
+		Entry entry2 = new Entry("Garlic fries - 2", 6.30);
+		Entry entry3 = new Entry("Garlic fries - 3", 6.30);
+		
+		assertTrue(compareEntries(entry1, billUnderTest.getEntry(0)));
+		assertTrue(compareEntries(entry2, billUnderTest.getEntry(1)));
+		assertTrue(compareEntries(entry3, billUnderTest.getEntry(2)));
 	}
 	
 	@Test
@@ -85,7 +101,8 @@ class BillTest {
 	@Test
 	void testAddEntryWithParticipant() {
 		billUnderTest.addEntry("Adrian", "Garlic Fries", 6.30);
-		assertTrue(compareEntries(new Entry("Adrian", "Garlic Fries", 6.30), 
+		Participant participantAdrian = new Participant("Adrian");
+		assertTrue(compareEntries(new Entry(participantAdrian, "Garlic Fries", 6.30), 
 				billUnderTest.getEntry(0)));
 	}
 	@Test
@@ -97,35 +114,13 @@ class BillTest {
 	}
 	
 	@Test
-	void testGetEntryByName() {
+	void testGetEntryByIndex() {
 		billUnderTest.addEntry("Adrian", "Garlic Fries", 6.30);
-		Entry curEntry = billUnderTest.getEntry("Garlic Fries");
+		Entry curEntry = billUnderTest.getEntry(0);
+		Participant participantAdrian = new Participant("Adrian");
 		
-		Entry entry = new Entry("Adrian", "Garlic Fries", 6.30);
+		Entry entry = new Entry(participantAdrian, "Garlic Fries", 6.30);
 		assertTrue(compareEntries(entry, curEntry));
-		
-		curEntry = billUnderTest.getEntry("Steak");
-		assertNull(curEntry);
-	}
-	
-	@Test
-	void testAddParticipantsToEntry() {
-		billUnderTest.addEntry("Adrian", "Garlic Fries", 6.30);
-		Entry curEntry = billUnderTest.getEntry("Garlic Fries");
-		curEntry.addParticipant("Archie");
-		
-		assertEquals("Adrian", curEntry.getParticipant(0));
-		assertEquals("Archie", curEntry.getParticipant(1));
-	}
-	
-	@Test
-	void testRemoveParticipantsFromEntry() {
-		billUnderTest.addEntry("Adrian", "Garlic Fries", 6.30);
-		Entry curEntry = billUnderTest.getEntry("Garlic Fries");
-		curEntry.addParticipant("Archie");
-		
-		curEntry.removeParticipant("Adrian");
-		assertEquals("Archie", curEntry.getParticipant(0));
 	}
 	
 	@Test 
@@ -139,5 +134,27 @@ class BillTest {
 	void testClearBill() {
 		billUnderTest.clear();
 		assertTrue(billUnderTest.isEmpty());
+	}
+	
+	@Test
+	void testCalculateIndividualBillOneParticipant() {
+		billUnderTest.calculateIndividualBills();
+		billUnderTest.addEntry("Adrian", "Garlic Fries", 6.30);
+		billUnderTest.setTaxRate(10);
+		billUnderTest.setTipRate(20);
+		assertEquals(billUnderTest.getParticipant("Adrian").totalBill(),
+				6.30*1.10*1.20);		
+	}
+	
+	@Test
+	void testCalculateIndividualBillMultipleParticipants() {
+		billUnderTest.setTaxRate(10);
+		billUnderTest.setTipRate(20);
+		billUnderTest.addEntry("Adrian", "Garlic Fries", 6.30);
+		billUnderTest.addEntry("Archie", "Fries", 2.50);
+		assertEquals(billUnderTest.getParticipant("Adrian").totalBill(),
+				6.30*1.10*1.20);
+		assertEquals(billUnderTest.getParticipant("Adrian").totalBill(),
+				2.50*1.10*1.20);		
 	}
 }
