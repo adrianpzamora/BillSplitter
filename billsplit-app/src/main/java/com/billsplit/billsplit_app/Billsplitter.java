@@ -24,7 +24,7 @@ public class Billsplitter {
 		menuList.add(new EnterTaxRateMenu(bill));
 		menuList.add(new EnterTipRateMenu(bill));
 		menuList.add(new EnterBillTotalMenu(bill));
-		menuList.add(new CalculateBillsMenu(bill));
+		menuList.add(new PrintIndividualBills(bill));
 		menuList.add(new ClearBillMenu(bill));
 		menuList.add(new ExitMenu());
 		numMenus = menuList.size();
