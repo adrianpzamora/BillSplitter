@@ -39,7 +39,7 @@ public class Bill {
 		Participant curParticipant = null;
 		
 		if(!participants.containsKey(participantName)) {
-			curParticipant = new Participant(participantName);
+			curParticipant = new Participant(participantName, this);
 			participants.put(participantName, curParticipant);
 		}
 		else {

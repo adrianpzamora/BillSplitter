@@ -31,7 +31,7 @@ public class AddParticipantMenu implements Menu {
 			
 			Participant curParticipant = bill.getParticipant(name);
 			if(curParticipant == null) {
-				curParticipant =  new Participant(name);
+				curParticipant =  new Participant(name, bill);
 			}
 			entry.addParticipant(curParticipant);
 		}

@@ -101,7 +101,7 @@ class BillTest {
 	@Test
 	void testAddEntryWithParticipant() {
 		billUnderTest.addEntry("Adrian", "Garlic Fries", 6.30);
-		Participant participantAdrian = new Participant("Adrian");
+		Participant participantAdrian = new Participant("Adrian", billUnderTest);
 		assertTrue(compareEntries(new Entry(participantAdrian, "Garlic Fries", 6.30), 
 				billUnderTest.getEntry(0)));
 	}
@@ -117,7 +117,7 @@ class BillTest {
 	void testGetEntryByIndex() {
 		billUnderTest.addEntry("Adrian", "Garlic Fries", 6.30);
 		Entry curEntry = billUnderTest.getEntry(0);
-		Participant participantAdrian = new Participant("Adrian");
+		Participant participantAdrian = new Participant("Adrian", billUnderTest);
 		
 		Entry entry = new Entry(participantAdrian, "Garlic Fries", 6.30);
 		assertTrue(compareEntries(entry, curEntry));
