@@ -137,16 +137,6 @@ class BillTest {
 	}
 	
 	@Test
-	void testCalculateIndividualBillOneParticipant() {
-		billUnderTest.calculateIndividualBills();
-		billUnderTest.addEntry("Adrian", "Garlic Fries", 6.30);
-		billUnderTest.setTaxRate(10);
-		billUnderTest.setTipRate(20);
-		assertEquals(billUnderTest.getParticipant("Adrian").totalBill(),
-				6.30*1.10*1.20);		
-	}
-	
-	@Test
 	void testCalculateIndividualBillMultipleParticipants() {
 		billUnderTest.setTaxRate(10);
 		billUnderTest.setTipRate(20);
@@ -154,7 +144,7 @@ class BillTest {
 		billUnderTest.addEntry("Archie", "Fries", 2.50);
 		assertEquals(billUnderTest.getParticipant("Adrian").totalBill(),
 				6.30*1.10*1.20);
-		assertEquals(billUnderTest.getParticipant("Adrian").totalBill(),
+		assertEquals(billUnderTest.getParticipant("Archie").totalBill(),
 				2.50*1.10*1.20);		
 	}
 }

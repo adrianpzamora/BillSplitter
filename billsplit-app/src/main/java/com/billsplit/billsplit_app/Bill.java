@@ -3,14 +3,15 @@ package com.billsplit.billsplit_app;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 public class Bill {
 	private HashSet<String> entryNames;
 	private ArrayList<Entry> entries;
 	private HashMap<String, Participant> participants;
 	private double total;
-	private double taxRate; 
-	private double tipRate;
+	private double taxRate = -1; 
+	private double tipRate = -1;
 	
 	public Bill() {
 		entries = new ArrayList<Entry>();
@@ -35,7 +36,7 @@ public class Bill {
 		return newName;
 	}
 	
-	private Participant getExistingParticipant(String participantName) {
+	public Participant getExistingParticipant(String participantName) {
 		Participant curParticipant = null;
 		
 		if(!participants.containsKey(participantName)) {
@@ -113,8 +114,18 @@ public class Bill {
 		}
 	}
 
-	public void calculateIndividualBills() {
-		
+	public void printIndividualBills() {
+		if(taxRate == -1) {
+			System.out.println("Missing tax and/or tip rate!");
+			return;
+		}
+		System.out.println("Name\tTotal Bill");
+		for(Map.Entry<String, Participant> participantEntry : 
+			participants.entrySet()) {
+			double curParticipantTotal = participantEntry.getValue().totalBill();
+			String curParticipantName = participantEntry.getKey();
+			System.out.println(curParticipantName + "\t" + curParticipantTotal);
+		}
 	}
 	
 	public void clear() {

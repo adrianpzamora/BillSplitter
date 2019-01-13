@@ -7,36 +7,47 @@ import org.junit.jupiter.api.Test;
 
 class EntryTest {
 	Entry entryUnderTest;
+	Participant participantArchie;
+	Participant participantAdrian;
+	Participant participantClaire;
 	Bill billUnderTest;
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		entryUnderTest = new Entry("Adrian", 6.50);
+		entryUnderTest = new Entry("Garlic Fries", 6.30);
+		billUnderTest = new Bill();
+		participantArchie = new Participant("Archie", billUnderTest);
+		participantAdrian = new Participant("Adrian", billUnderTest);
+		participantClaire = new Participant("Claire", billUnderTest);
+		billUnderTest.setTaxRate(10);
+		billUnderTest.setTipRate(20);
+		entryUnderTest.addParticipant(participantArchie);
+		entryUnderTest.addParticipant(participantAdrian);
+		entryUnderTest.addParticipant(participantClaire);
 	}
 
 	@Test
 	void testAddParticipantsToEntry() {
-		Entry curEntry = new Entry("Garlic Fries", 6.30);
-		Participant participantArchie = new Participant("Archie", billUnderTest);
-		Participant participantAdrian = new Participant("Adrian", billUnderTest);
-		
-		curEntry.addParticipant(participantArchie);
-		curEntry.addParticipant(participantAdrian);
-		
-		assertEquals("Archie", curEntry.getParticipant(0).getName());
-		assertEquals("Adrian", curEntry.getParticipant(1).getName());
+		assertEquals("Archie", entryUnderTest.getParticipant(0).getName());
+		assertEquals("Adrian", entryUnderTest.getParticipant(1).getName());
 	}
 	
 	@Test
 	void testRemoveParticipantsFromEntry() {
-		Entry curEntry = new Entry("Garlic Fries", 6.30);
-		Participant participantArchie = new Participant("Archie", billUnderTest);
-		Participant participantAdrian = new Participant("Adrian", billUnderTest);
-		
-		curEntry.addParticipant(participantArchie);
-		curEntry.addParticipant(participantAdrian);
-		curEntry.removeParticipant(participantArchie);
-		assertEquals("Adrian", curEntry.getParticipant(0).getName());
+		entryUnderTest.removeParticipant(participantArchie);
+		assertEquals("Adrian", entryUnderTest.getParticipant(0).getName());
 	}
 
+	@Test
+	void testTotalBillForEntryWithMultipleParticipants() {
+		double sharedCost = (6.30/3) * 1.10 * 1.20;
+		assertEquals(sharedCost, participantArchie.totalBill(), .1);
+	}
+	
+	@Test
+	void testAddSameParticipantStillGivesCorrectTotal() {
+		double sharedCost = (6.30/3) * 1.10 * 1.20;
+		entryUnderTest.addParticipant(participantAdrian);
+		assertEquals(sharedCost, participantAdrian.totalBill(), .1);
+	}
 }

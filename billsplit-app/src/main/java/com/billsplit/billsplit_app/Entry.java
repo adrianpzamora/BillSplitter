@@ -16,11 +16,14 @@ public class Entry {
 		this.name = name;
 		this.cost = cost;
 		participants.add(participant);
+		notifyParticipants();
 	}
 	
 	private void notifyParticipants() {
+		int numParticipants = participants.size();
+		double sharedCost = cost/numParticipants;
 		for(Participant participant : participants) {
-			
+			participant.updateEntryCost(name, sharedCost);
 		}
 	}
 	
